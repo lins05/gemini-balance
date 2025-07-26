@@ -190,6 +190,11 @@ def _build_payload(model: str, request: GeminiRequest) -> Dict[str, Any]:
             else:
                 payload["generationConfig"]["thinkingConfig"] = {"thinkingBudget": settings.THINKING_BUDGET_MAP.get(model,1000)}
 
+    # Log final thinkingBudget value
+    thinking_config = payload.get("generationConfig", {}).get("thinkingConfig", {})
+    thinking_budget = thinking_config.get("thinkingBudget")
+    logger.info(f"Final thinkingBudget value: {thinking_budget}")
+    
     return payload
 
 

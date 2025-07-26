@@ -225,6 +225,11 @@ def _build_payload(
     ):
         payload["systemInstruction"] = instruction
 
+    # Log final thinkingBudget value
+    thinking_config = payload.get("generationConfig", {}).get("thinkingConfig", {})
+    thinking_budget = thinking_config.get("thinkingBudget")
+    logger.info(f"Final thinkingBudget value: {thinking_budget}")
+
     return payload
 
 
