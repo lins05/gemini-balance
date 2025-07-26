@@ -252,11 +252,6 @@ def _build_payload(model: str, request: GeminiRequest) -> Dict[str, Any]:
             else:
                 payload["generationConfig"]["thinkingConfig"] = {"thinkingBudget": settings.THINKING_BUDGET_MAP.get(model,1000)}
 
-    # Log final thinkingBudget value
-    thinking_config = payload.get("generationConfig", {}).get("thinkingConfig", {})
-    thinking_budget = thinking_config.get("thinkingBudget")
-    logger.info(f"Final thinkingBudget value: {thinking_budget}")
-    
     return payload
 
 
@@ -310,6 +305,11 @@ class GeminiChatService:
         payload = _build_payload(model, request)
         payload_size = len(json.dumps(payload))
         logger.info(f"Client payload - Model: {model}, Payload size: {payload_size} bytes")
+        
+        # Log final thinkingBudget value
+        thinking_config = payload.get("generationConfig", {}).get("thinkingConfig", {})
+        thinking_budget = thinking_config.get("thinkingBudget")
+        logger.info(f"Final thinkingBudget value: {thinking_budget}")
         start_time = time.perf_counter()
         request_datetime = datetime.datetime.now()
         is_success = False
@@ -422,6 +422,11 @@ class GeminiChatService:
         payload = _build_payload(model, request)
         payload_size = len(json.dumps(payload))
         logger.info(f"Client payload - Model: {model}, Payload size: {payload_size} bytes")
+        
+        # Log final thinkingBudget value
+        thinking_config = payload.get("generationConfig", {}).get("thinkingConfig", {})
+        thinking_budget = thinking_config.get("thinkingBudget")
+        logger.info(f"Final thinkingBudget value: {thinking_budget}")
         is_success = False
         status_code = None
         final_api_key = api_key
