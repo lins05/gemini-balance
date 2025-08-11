@@ -267,12 +267,8 @@ class OpenAIChatService:
 
         payload = _build_payload(request, messages, instruction)
         payload_size = len(json.dumps(payload))
-        logger.info(f"Client payload - Model: {request.model}, Payload size: {payload_size} bytes")
-        
-        # Log final thinkingBudget value
-        thinking_config = payload.get("generationConfig", {}).get("thinkingConfig", {})
-        thinking_budget = thinking_config.get("thinkingBudget")
-        logger.info(f"Final thinkingBudget value: {thinking_budget}")
+        generation_config = payload.get("generationConfig", {})
+        logger.info(f"Client request - Model: {request.model}, Payload size: {payload_size} bytes, Generation config: {generation_config}")
 
         if request.stream:
             return self._handle_stream_completion(request.model, payload, api_key)
